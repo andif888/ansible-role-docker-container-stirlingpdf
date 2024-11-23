@@ -1,0 +1,48 @@
+---
+- hosts: localhost
+  remote_user: root
+  vars:
+    docker_container__base__dns_domain: "acme.org"
+
+    docker_network_traefik_name: "traefik_proxy_net"
+
+    docker_container_stirlingpdf_server_domain: "{{ docker_container_stirlingpdf_name }}.{{ docker_container__base__dns_domain }}"
+    
+    docker_container_stirlingpdf_tessdata_language_pack_urls:
+      - "https://github.com/tesseract-ocr/tessdata_fast/raw/refs/heads/main/deu.traineddata"
+      - "https://github.com/tesseract-ocr/tessdata_fast/raw/refs/heads/main/fra.traineddata"
+      - "https://github.com/tesseract-ocr/tessdata_fast/raw/refs/heads/main/ita.traineddata"
+      - "https://github.com/tesseract-ocr/tessdata_fast/raw/refs/heads/main/spa.traineddata"
+
+
+    docker_container_stirlingpdf_env:
+      DOCKER_ENABLE_SECURITY: "false"
+      SECURITY_ENABLELOGIN: "false"
+      INSTALL_BOOK_AND_ADVANCED_HTML_OPS: "false"
+      LANGS: "en_GB"
+      UI_APP_NAME: "ACME - pdf"
+      UI_APP_NAME_NAVBAR: "ACME pdf"
+      UI_HOME_DESCRIPTION: "Tools for all your PDF needs."
+
+    docker_container_stirlingpdf_labels:
+      traefik.enable: "true"
+      traefik.http.routers.stirlingpdf.rule: "Host(`{{ docker_container_stirlingpdf_server_domain }}`)"
+      traefik.http.routers.stirlingpdf.entrypoints: http
+      traefik.http.routers.stirlingpdf.service: stirlingpdf
+      #traefik.http.routers.stirlingpdf.middlewares: https_redirect_permanent@file
+      # HTTPS
+      traefik.http.routers.stirlingpdf_ssl.rule: "Host(`{{ docker_container_stirlingpdf_server_domain }}`)"
+      traefik.http.routers.stirlingpdf_ssl.entrypoints: https
+      traefik.http.routers.stirlingpdf_ssl.service: stirlingpdf
+      #traefik.http.routers.stirlingpdf_ssl.tls: "true"
+      # traefik.http.routers.stirlingpdf_ssl.tls.certResolver: le
+      # traefik.http.routers.stirlingpdf_ssl.middlewares: "hsts@file"
+      # Service
+      traefik.http.services.stirlingpdf.loadbalancer.server.port: "8080"
+
+    docker_container_stirlingpdf_networks:
+      - name: "{{ docker_network_stirlingpdf_name }}"
+      - name: "{{ docker_network_traefik_name }}"
+
+  roles:
+    - ansible-role-docker-container-stirlingpdf

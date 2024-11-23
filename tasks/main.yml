@@ -1,0 +1,75 @@
+---
+# @tag docker-container-prereq-all:description: Ensure all pre-requisites are installed
+# @tag docker-container-prereq-stirlingpdf:description: Ensure all pre-requisites for stirlingpdf are installed
+- ansible.builtin.import_tasks: "{{ role_path }}/tasks/prereq.yml"
+  tags:
+    - docker-container-prereq-all
+    - docker-container-prereq-stirlingpdf
+
+# @tag docker-container-restore-all:description: Run restic restore for all restic enabled containers.
+# @tag docker-container-restore-stirlingpdf:description: Run restic restore for stirlingpdf if restic is enabled.
+- ansible.builtin.import_tasks: "{{ role_path }}/tasks/restore.yml"
+  tags:
+    - never
+    - docker-container-restore-all
+    - docker-container-restore-stirlingpdf
+  when:
+    - docker_container_stirlingpdf_restic_enable
+
+# @tag docker-container-setup-all:description: Run setup task for all containers.
+# @tag docker-container-setup-stirlingpdf:description: Run setup task for stirlingpdf.
+- ansible.builtin.import_tasks: "{{ role_path }}/tasks/setup.yml"
+  tags:
+    - docker-container-setup-all
+    - docker-container-setup-stirlingpdf
+    - docker-container-restore-all
+    - docker-container-restore-stirlingpdf
+
+# @tag docker-container-backup-init-all:description: Run init backup task for all container.
+# @tag docker-container-backup-init-stirlingpdf:description: Run init backup task for stirlingpdf if restic is enabled.
+- ansible.builtin.import_tasks: "{{ role_path }}/tasks/backup_init.yml"
+  tags:
+    - docker-container-setup-all
+    - docker-container-setup-stirlingpdf
+    - docker-container-backup-init-all
+    - docker-container-backup-init-stirlingpdf
+  when:
+    - docker_container_stirlingpdf_restic_enable
+
+# @tag docker-container-remove-all:description: Remove all containers.
+# @tag docker-container-remove-stirlingpdf:description: Remove stirlingpdf.
+- ansible.builtin.import_tasks: "{{ role_path }}/tasks/remove.yml"
+  tags:
+    - never
+    - docker-container-remove-all
+    - docker-container-remove-stirlingpdf
+    - docker-container-purge-all
+    - docker-container-purge-stirlingpdf
+
+# @tag docker-container-purge-all:description: Remove all containers and delete volume mounts.
+# @tag docker-container-purge-stirlingpdf:description: Remove stirlingpdf and delete volume mounts.
+- ansible.builtin.import_tasks: "{{ role_path }}/tasks/purge.yml"
+  tags:
+    - never
+    - docker-container-purge-all
+    - docker-container-purge-stirlingpdf
+
+# @tag docker-container-backup-all:description: Backup all containers' volume mounts.
+# @tag docker-container-backup-stirlingpdf:description: Backup stirlingpdf volume mounts.
+- ansible.builtin.import_tasks: "{{ role_path }}/tasks/backup.yml"
+  tags:
+    - never
+    - docker-container-backup-all
+    - docker-container-backup-stirlingpdf
+  when:
+    - docker_container_stirlingpdf_restic_enable
+
+# @tag docker-container-backup-list-all:description: List all containers' backups.
+# @tag docker-container-backup-list-stirlingpdf:description: List stirlingpdf backups.
+- ansible.builtin.import_tasks: "{{ role_path }}/tasks/backup_list.yml"
+  tags:
+    - never
+    - docker-container-backup-list-all
+    - docker-container-backup-list-stirlingpdf
+  when:
+    - docker_container_stirlingpdf_restic_enable
