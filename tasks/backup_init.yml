@@ -84,3 +84,4 @@
     - restic_seeded.changed is defined
     - restic_seeded.changed
     - restic_seeded.delta is defined
+...

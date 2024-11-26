@@ -21,6 +21,7 @@ Role to run stirlingpdf in a docker container
   - [docker_container_stirlingpdf_restic_s3_repo_access_key](#docker_container_stirlingpdf_restic_s3_repo_access_key)
   - [docker_container_stirlingpdf_restic_s3_repo_password](#docker_container_stirlingpdf_restic_s3_repo_password)
   - [docker_container_stirlingpdf_restic_s3_repo_secret_key](#docker_container_stirlingpdf_restic_s3_repo_secret_key)
+  - [docker_container_stirlingpdf_restic_stop_during_backup](#docker_container_stirlingpdf_restic_stop_during_backup)
   - [docker_container_stirlingpdf_restic_tag](#docker_container_stirlingpdf_restic_tag)
   - [docker_container_stirlingpdf_volume_dir](#docker_container_stirlingpdf_volume_dir)
   - [docker_container_stirlingpdf_volumes](#docker_container_stirlingpdf_volumes)
@@ -240,6 +241,16 @@ Minio S3 repo secret key for restic backup storage.
 ```YAML
 docker_container_stirlingpdf_restic_s3_repo_secret_key: '{{ docker_container__base__restic_s3_repo_secret_key
   }}'
+```
+
+### docker_container_stirlingpdf_restic_stop_during_backup
+
+Stop and restart container during backup operation.
+
+#### Default value
+
+```YAML
+docker_container_stirlingpdf_restic_stop_during_backup: false
 ```
 
 ### docker_container_stirlingpdf_restic_tag

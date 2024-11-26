@@ -10,4 +10,4 @@
 - name: backup_list debug 
   ansible.builtin.debug:
     msg: "{{ backup_list_result.stdout }}"
-  
+...

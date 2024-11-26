@@ -12,6 +12,7 @@
     name: "{{ docker_container_stirlingpdf_name }}"
     state: stopped
   when:
+    - docker_container_stirlingpdf_restic_stop_during_backup
     - docker_container_info_result.exists
     - docker_container_info_result.container.State.Running
 
@@ -37,6 +38,7 @@
     name: "{{ docker_container_stirlingpdf_name }}"
     state: started
   when:
+    - docker_container_stirlingpdf_restic_stop_during_backup
     - docker_container_info_result.exists
     - docker_container_info_result.container.State.Running
 
@@ -58,3 +60,4 @@
     msg: '{{ rentention_result.stdout }}'
   when:
     - rentention_result is defined
+...

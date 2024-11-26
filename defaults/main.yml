@@ -142,6 +142,11 @@ docker_network_stirlingpdf_name: "{{ docker_container_stirlingpdf_name }}_backen
 # @end
 docker_container_stirlingpdf_restic_enable: false
 
+# @var docker_container_stirlingpdf_restic_stop_during_backup:description: >
+# Stop and restart container during backup operation.
+# @end
+docker_container_stirlingpdf_restic_stop_during_backup: false
+
 # @var docker_container_stirlingpdf_restic_s3_endpoint:description: >
 # Minio S3 endpoint for restic backup storage.
 #

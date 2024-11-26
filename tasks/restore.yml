@@ -37,3 +37,4 @@
   when:
     - docker_container_info_result.exists
     - docker_container_info_result.container.State.Running
+...

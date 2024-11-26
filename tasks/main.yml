@@ -73,3 +73,4 @@
     - docker-container-backup-list-stirlingpdf
   when:
     - docker_container_stirlingpdf_restic_enable
+...

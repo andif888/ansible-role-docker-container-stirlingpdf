@@ -11,3 +11,4 @@
     name: "{{ docker_network_stirlingpdf_name }}"
     force: yes
     state: absent
+...

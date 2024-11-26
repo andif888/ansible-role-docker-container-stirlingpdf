@@ -4,3 +4,4 @@
     path: "{{ docker_container_stirlingpdf_volume_dir }}"
     state: absent
   when: docker_container_stirlingpdf_volume_dir is defined
+...
